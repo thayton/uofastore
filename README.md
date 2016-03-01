@@ -12,8 +12,9 @@ and then add all of the (new) books to the shopping cart.
 
 ## Viewing Results
 You can view a screenshot at each stage of the purchase by viewing:
-screenshot-1-courses-selected.png
-screenshot-2-modal.png
-screenshot-3-books-chosen.png
-screenshot-4-checkout.png
+
+* screenshot-1-courses-selected.png
+* screenshot-2-modal.png
+* screenshot-3-books-chosen.png
+* screenshot-4-checkout.png
 
