@@ -106,16 +106,17 @@ class Scraper(object):
         except NoSuchElementException:
             pass
         else:
-            # Get new books only
+            # Choose which books may be substituted.
             self.driver.switch_to_frame(iframe)
 
-            radio_button = self.driver.find_element_by_id('ctl00_PageContent_rblSubs_0')
+            radio_button = self.driver.find_element_by_id('ctl00_PageContent_rblSubs_2')
             radio_button.click()
+
+            self.driver.save_screenshot('screenshot-2-modal.png')
 
             continue_button = self.driver.find_element_by_id('ctl00_PageContent_btnContinue')
             continue_button.click()
 
-            self.driver.save_screenshot('screenshot.png')
             self.driver.switch_to_default_content()
 
         def iframe_gone(driver):
@@ -131,15 +132,50 @@ class Scraper(object):
         # Wait for the next page to load
         wait = WebDriverWait(self.driver, 10)
         wait.until(iframe_gone)
-        
+
+    def get_new_books(self):
+        '''
+        Go through and click 
+        '''
+        xp = '//tr[@class="product"]'
+        books = self.driver.find_elements_by_xpath(xp)
+
+        for book in books:
+            css = 'div.booklistvariant > input.new'
+            newbook_radio_button = book.find_element_by_css_selector(css)
+            newbook_radio_button.click()
+
+            #
+            # Select NO for "Allow Substitution"
+            # Look for value="1" if you do want a substitution
+            #
+            css = 'div.subsoptions > fieldset > input[value="0"]'
+            no_subs_radio_button = book.find_element_by_css_selector(css)
+            no_subs_radio_button.click()
+
+    def click_add_books_to_cart(self):
+        add_selected_button = self.driver.find_element_by_id('ctl00_PageContent_btnAddToCart')
+        add_selected_button.click()
+
+        # Wait until checkout button appears
+        checkout_button_id = 'ctl00_PageContent_ctlCart_btnCheckoutNow'
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(lambda driver: driver.find_element_by_id(checkout_button_id).is_displayed())
+
     def scrape(self):
         self.driver.get(self.url)
         
         self.select_dept('ACCT - ACCOUNTING')
         self.select_course('2013')
         self.select_section('1 - Myers')
+        self.driver.save_screenshot('screenshot-1-courses-selected.png')
         self.click_choose_books()
-        self.driver.save_screenshot('screenshot.png')
+
+        self.get_new_books()
+        self.driver.save_screenshot('screenshot-3-books-chosen.png')
+        self.click_add_books_to_cart()
+
+        self.driver.save_screenshot('screenshot-4-checkout.png')
 
 if __name__ == '__main__':
     scraper = Scraper()
