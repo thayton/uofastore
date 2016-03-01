@@ -1,0 +1,9 @@
+venv
+*.pyc
+staticfiles
+*~
+*.swp
+*#
+*.png
+migrations
+ghostdriver.log
