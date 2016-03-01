@@ -92,6 +92,11 @@ class Scraper(object):
         wait.until(selected_courses_updated)
 
     def click_choose_books(self):
+        '''
+        Click Choose Books under the Selected Courses box and then handle
+        the popup new/used books popup by selecting the preference that
+        allows us to choose between new and used books.
+        '''
         xp = '//div[@id="clSelectedCoursesFooter"]/a'
         choose_books_link = self.get_elem(xp)
         choose_books_link.click()
@@ -135,7 +140,7 @@ class Scraper(object):
 
     def get_new_books(self):
         '''
-        Go through and click 
+        Go through and click NEW for each book and NO for "Allow Substitution?"
         '''
         xp = '//tr[@class="product"]'
         books = self.driver.find_elements_by_xpath(xp)
@@ -154,6 +159,9 @@ class Scraper(object):
             no_subs_radio_button.click()
 
     def click_add_books_to_cart(self):
+        '''
+        Click Add Selected to Cart and wait for the checkout page to load.
+        '''
         add_selected_button = self.driver.find_element_by_id('ctl00_PageContent_btnAddToCart')
         add_selected_button.click()
 
