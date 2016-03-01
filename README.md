@@ -1,4 +1,7 @@
 # uofastore
+Starting from the Select Courses page at http://shop.uofastore.com/courselistbuilder.aspx
+this script will select department ACCT-Accounting section / course 2013 / section 1-Myers
+and then add all of the (new) books to the shopping cart.
 
 ## Setup
     $ virtualenv venv
